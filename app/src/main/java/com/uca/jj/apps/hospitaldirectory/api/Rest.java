@@ -5,7 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Rest {
 
-    private final static String URL_BASE = "https://my-json-server.typicode.com/soy-jj/my-json-server-fake/";
+    //private final static String URL_BASE = "https://my-json-server.typicode.com/soy-jj/my-json-server-fake/";
+    private final static String URL_BASE = "https://uca-isi-api-hospitalario.herokuapp.com/api/";
 
     public static RestInterface instance() {
         Retrofit retrofit = new Retrofit.Builder()

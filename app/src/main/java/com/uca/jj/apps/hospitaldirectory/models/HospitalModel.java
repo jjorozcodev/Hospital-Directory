@@ -1,20 +1,20 @@
 package com.uca.jj.apps.hospitaldirectory.models;
 
 public class HospitalModel {
-    private String id;
+    private int id;
     private String name;
     private String slogan;
     private String description;
-    private String telephone;
+    private int telephone;
     private String address;
     private String website;
     private String urlImg;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -42,11 +42,11 @@ public class HospitalModel {
         this.description = description;
     }
 
-    public String getTelephone() {
+    public int getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(String telephone) {
+    public void setTelephone(int telephone) {
         this.telephone = telephone;
     }
 
