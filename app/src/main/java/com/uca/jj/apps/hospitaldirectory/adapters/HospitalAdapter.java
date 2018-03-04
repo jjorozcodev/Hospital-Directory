@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 public class HospitalAdapter extends RecyclerView.Adapter<HospitalViewHolder> {
 
-    ArrayList <HospitalModel> detailHospital;
+    ArrayList <HospitalModel> hospitals;
 
     public HospitalAdapter(ArrayList<HospitalModel> detailHospital) {
-        this.detailHospital = detailHospital;
+        this.hospitals = detailHospital;
     }
 
     @Override
@@ -29,16 +29,16 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalViewHolder> {
 
     @Override
     public void onBindViewHolder(HospitalViewHolder holder, int position) {
-        String url = detailHospital.get(position).getUrlImg();
+        String url = hospitals.get(position).getUrlImg();
         Uri uri = Uri.parse(url);
-        //Ya que el ViewHolder está en otra clase, se accede con el método get...
+
         holder.getImgHospital().setImageURI(uri);
-        holder.getNameHospital().setText(detailHospital.get(position).getName());
-        holder.getTelephone().setText(String.valueOf(detailHospital.get(position).getTelephone()));
+        holder.getNameHospital().setText(hospitals.get(position).getName());
+        holder.getTelephone().setText(String.valueOf(hospitals.get(position).getTelephone()));
     }
 
     @Override
     public int getItemCount() {
-        return detailHospital.size();
+        return hospitals.size();
     }
 }
