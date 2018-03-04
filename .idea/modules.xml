@@ -3,9 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Hospital-Directory.iml" filepath="$PROJECT_DIR$/Hospital-Directory.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Hospital-Directory-master.iml" filepath="$PROJECT_DIR$/Hospital-Directory-master.iml" />
-      <module fileurl="file://C:/Users/DARYIN PEREZ/Desktop/Hospital-Directory-master/HospitalDirectory.iml" filepath="C:/Users/DARYIN PEREZ/Desktop/Hospital-Directory-master/HospitalDirectory.iml" />
+      <module fileurl="file://C:\Github\proyecto-android\Hospital-Directory\Hospital-Directory.iml" filepath="C:\Github\proyecto-android\Hospital-Directory\Hospital-Directory.iml" />
+      <module fileurl="file://C:\Github\proyecto-android\Hospital-Directory\Hospital-Directory-master.iml" filepath="C:\Github\proyecto-android\Hospital-Directory\Hospital-Directory-master.iml" />
+      <module fileurl="file://C:\Users\DARYIN PEREZ\Desktop\Hospital-Directory-master\HospitalDirectory.iml" filepath="C:\Users\DARYIN PEREZ\Desktop\Hospital-Directory-master\HospitalDirectory.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Github\proyecto-android\Hospital-Directory\app\app.iml" filepath="C:\Github\proyecto-android\Hospital-Directory\app\app.iml" />
     </modules>
   </component>
 </project>
