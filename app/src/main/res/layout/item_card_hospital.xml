@@ -41,7 +41,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/telefono"
+                android:id="@+id/telephone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -49,13 +49,24 @@
                 android:text="88888888"
                 android:textColor="@color/secondary_text"
                 android:textSize="20dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="LLAMAR"
+                android:textColor="@color/icons"
+                android:textSize="20dp" />
 
             <ImageView
                 android:id="@+id/imgCall"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_call_black_24dp" />
+
 
         </LinearLayout>
     </LinearLayout>
