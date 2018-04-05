@@ -20,6 +20,11 @@
         android:textColor="@color/icons"
         android:textSize="18dp"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 
 
     </LinearLayout>
