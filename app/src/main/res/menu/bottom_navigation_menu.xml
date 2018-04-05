@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:style="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/action_info"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="Info"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_about"
+        android:icon="@drawable/ic_people_black_24dp"
+        android:title="Nosotros"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_comment"
+        android:icon="@drawable/ic_comment_black_24dp"
+        android:title="Comentarios"
+        app:showAsAction="always" />
+</menu>
