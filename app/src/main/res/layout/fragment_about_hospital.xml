@@ -21,7 +21,7 @@
             android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/About1"
+            android:id="@+id/txtDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Somos lideres..."

@@ -16,15 +16,17 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalViewHolder> {
 
     ArrayList <HospitalModel> hospitals;
 
-    public HospitalAdapter(ArrayList<HospitalModel> detailHospital) {
-        this.hospitals = detailHospital;
+    public HospitalAdapter(ArrayList<HospitalModel> listHospitals) {
+        this.hospitals = listHospitals;
     }
 
     @Override
     public HospitalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //Override method...
+        int position = viewType;
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_card_hospital, parent, false);
-        return new HospitalViewHolder(view);
+        return new HospitalViewHolder(view, this.hospitals.get(position));
     }
 
     @Override
@@ -35,6 +37,12 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalViewHolder> {
         holder.getImgHospital().setImageURI(uri);
         holder.getNameHospital().setText(hospitals.get(position).getName());
         holder.getTelephone().setText(String.valueOf(hospitals.get(position).getTelephone()));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        //return super.getItemViewType(position);
+        return position;
     }
 
     @Override

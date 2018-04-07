@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.uca.jj.apps.hospitaldirectory.R;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     HospitalAdapter hospitalAdapter = new HospitalAdapter(response.body());
                     HospitalRecyclerView.setAdapter(hospitalAdapter);
                 }
+                Toast.makeText(getApplicationContext(), String.valueOf(response.code()), Toast.LENGTH_LONG).show();
             }
 
             @Override

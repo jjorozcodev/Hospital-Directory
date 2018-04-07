@@ -1,42 +1,68 @@
 package com.uca.jj.apps.hospitaldirectory.holders;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.uca.jj.apps.hospitaldirectory.R;
+import com.uca.jj.apps.hospitaldirectory.activities.DetailHospital;
+import com.uca.jj.apps.hospitaldirectory.models.HospitalModel;
 
-public class HospitalViewHolder extends RecyclerView.ViewHolder{
+public class HospitalViewHolder extends RecyclerView.ViewHolder {
 
     SimpleDraweeView imgHospital;
     TextView nameHospital;
     TextView telephone;
+    Button btnCall;
 
-    ImageView imgCall;
-
-    public HospitalViewHolder(final View itemView) {
+    public HospitalViewHolder(final View itemView, final HospitalModel hospitalModel) {
         super(itemView);
 
         imgHospital = (SimpleDraweeView) itemView.findViewById(R.id.imgHospital);
         telephone = (TextView) itemView.findViewById(R.id.telephone);
 
         nameHospital = (TextView) itemView.findViewById(R.id.nameHospital);
-        imgCall = (ImageView) itemView.findViewById(R.id.imgCall);
+        btnCall = (Button) itemView.findViewById(R.id.btnCall);
 
         nameHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(itemView.getContext(), "Mostrar detalle de "+nameHospital.getText(), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(itemView.getContext(), DetailHospital.class);
+                i.putExtra("id", hospitalModel.getId());
+                i.putExtra("name", hospitalModel.getName());
+                i.putExtra("slogan", hospitalModel.getSlogan());
+                i.putExtra("description", hospitalModel.getDescription());
+                i.putExtra("telephone", hospitalModel.getTelephone());
+                i.putExtra("address", hospitalModel.getAddress());
+                i.putExtra("website", hospitalModel.getWebsite());
+                i.putExtra("urlImg", hospitalModel.getUrlImg());
+
+                itemView.getContext().startActivity(i);
             }
         });
 
-        imgCall.setOnClickListener(new View.OnClickListener() {
+        btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(itemView.getContext(), "Llamando a "+telephone.getText(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telephone.getText().toString()));
+                if (ActivityCompat.checkSelfPermission(itemView.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                itemView.getContext().startActivity(intent);
             }
         });
     }
@@ -64,4 +90,5 @@ public class HospitalViewHolder extends RecyclerView.ViewHolder{
     public void setTelephone(TextView telephone) {
         this.telephone = telephone;
     }
+
 }

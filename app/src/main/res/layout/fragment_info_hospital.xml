@@ -22,14 +22,15 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/telephone"
+                android:id="@+id/txtTelephone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="88888888"
                 android:textColor="@color/primary_text"
-                android:textSize="20dp" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                />
 
             <ImageView
                 android:id="@+id/imgCall"
@@ -49,14 +50,15 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/webSite"
+                android:id="@+id/txtWebsite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="www.hospital,com"
                 android:textColor="@color/primary_text"
-                android:textSize="20dp" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                />
 
             <ImageView
                 android:id="@+id/imgWeb"
@@ -76,14 +78,15 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/txtAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="contiguo..."
                 android:textColor="@color/primary_text"
-                android:textSize="20dp" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                />
 
             <ImageView
                 android:id="@+id/imgLocation"

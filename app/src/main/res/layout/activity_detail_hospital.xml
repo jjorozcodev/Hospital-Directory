@@ -3,37 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/tools"
     android:orientation="vertical">
-
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:background="@color/icons"
+        >
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/logoHospital"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:padding="8dp"
+            app:roundAsCircle="true"
+            fresco:placeholderImage="@mipmap/ic_launcher" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Nombre Hospital"
-        android:textSize="25sp" />
+        <TextView
+            android:id="@+id/txtNameHospital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Nombre Hospital"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorPrimaryDark"/>
+    </LinearLayout>
 
-    <RelativeLayout
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="56dp">
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="center"
-            app:itemIconTint="#ffffff"
-            app:itemTextColor="#ffffff"
-            android:background="@color/colorPrimary"
+            app:itemIconTint="@color/icons"
+            app:itemBackground="@color/colorPrimary"
+            app:itemTextColor="@color/icons"
             android:forceHasOverlappingRendering="true"
             app:menu="@menu/bottom_navigation_menu" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
