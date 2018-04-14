@@ -7,24 +7,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="COMENTAR"
-        android:id="@+id/btn_comment"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@color/icons"
-        android:textSize="18dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvComments"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-
 
     </LinearLayout>
 </FrameLayout>

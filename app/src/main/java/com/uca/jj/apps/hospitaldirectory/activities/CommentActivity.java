@@ -13,7 +13,7 @@ public class CommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
 
-        Button button = findViewById(R.id.btn_comment);
+        //Button button = findViewById(R.id.btn_comment);
 
     }
 }
