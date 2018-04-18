@@ -14,11 +14,10 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imgHospital"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_weight="0"
-            android:padding="4dp"
             fresco:placeholderImage="@mipmap/ic_launcher" />
 
         <TextView
@@ -26,9 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_marginLeft="16dp"
             android:gravity="left"
             android:text="Nombre Hospital"
+            android:textColor="@color/colorPrimaryDark"
             android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
         <LinearLayout
@@ -37,7 +36,7 @@
             android:layout_weight="2"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="4dp">
+>
 
             <ImageView
                 android:layout_width="32dp"
@@ -63,7 +62,7 @@
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/burder_button"
                 android:text="LLAMAR"
                 android:textAlignment="center"
                 android:textAppearance="@android:style/TextAppearance.Material.Small"
