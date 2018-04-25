@@ -1,10 +1,13 @@
 package com.uca.jj.apps.hospitaldirectory.activities;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -22,20 +25,58 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView HospitalRecyclerView;
+    ///ProgressBar
+    private ProgressBar mProgressBar;
+    private int mProgressStatus = 0;
+    private Handler mHandler = new Handler();
+
+    ////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
+        LoadData();
 
+    }
+
+    private void LoadData(){
         initViews();
         configureRecyclerView();
         fetchHttpRequest();
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mProgressStatus < 100){
+                    mProgressStatus++;
+                    android.os.SystemClock.sleep(50);
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProgressBar.setProgress(mProgressStatus);
+                        }
+                    });
+                }
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        HospitalRecyclerView.setVisibility(View.VISIBLE);
+
+                    }
+                });
+            }
+        }).start();
     }
+
+
+
 
     private void initViews (){
         HospitalRecyclerView = (RecyclerView) findViewById(R.id.rvHospitals);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
     }
 
     private void configureRecyclerView (){
@@ -51,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     HospitalAdapter hospitalAdapter = new HospitalAdapter(response.body());
                     HospitalRecyclerView.setAdapter(hospitalAdapter);
                 }
-                Toast.makeText(getApplicationContext(), String.valueOf(response.code()), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), String.valueOf(response.code()), Toast.LENGTH_LONG).show();
             }
 
             @Override
