@@ -32,7 +32,7 @@ public class HospitalViewHolder extends RecyclerView.ViewHolder {
         nameHospital = (TextView) itemView.findViewById(R.id.nameHospital);
         btnCall = (Button) itemView.findViewById(R.id.btnCall);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        imgHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(itemView.getContext(), DetailHospital.class);

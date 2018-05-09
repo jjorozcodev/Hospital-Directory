@@ -1,13 +1,11 @@
 package com.uca.jj.apps.hospitaldirectory.activities;
 
-import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.uca.jj.apps.hospitaldirectory.R;
 import com.uca.jj.apps.hospitaldirectory.adapters.HospitalAdapter;
@@ -30,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvHospitals;
     private static final String APP_NAME = "Hospital_Directory";
     private static final String IS_FIRST_TIME = "is_first_time";
-    private int authorId;
-
-    private final String MY_ACCOUNT = "my_account_author";
-    private final String AUTHOR_ID = "author_id";
 
     private SwipeRefreshLayout swipeRefresh;
 
@@ -78,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         fetchComments();
         fetchAuthors();
     }
+
     private void fetchHospitals(){
         Call<ArrayList<HospitalModel>> call = Rest.instance().allHospitals();
         call.enqueue(new Callback<ArrayList<HospitalModel>>() {
@@ -119,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<AuthorModel>> call, Response<ArrayList<AuthorModel>> response) {
                 syncAuthors(response.body());
-                getAuthorsFromDB();
             }
 
             @Override
@@ -248,76 +242,5 @@ public class MainActivity extends AppCompatActivity {
         HospitalAdapter hospitalAdapter = new HospitalAdapter(hData);
         rvHospitals.setAdapter(hospitalAdapter);
     }
-
-    private void getCommentsFromDB() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmQuery<CommentModel> query = realm.where(CommentModel.class);
-
-        RealmResults<CommentModel> results = query.findAll();
-
-        ArrayList<CommentModel> cData = new ArrayList<>();
-        cData.addAll(realm.copyFromRealm(results));
-
-        for (CommentModel c : cData) {
-            Log.i("COMMENTS..", "/" + c.getMessage() + "/");
-        }
-    }
-
-
-    private void getAuthorsFromDB() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmQuery<AuthorModel> query = realm.where(AuthorModel.class);
-
-        RealmResults<AuthorModel> results = query.findAll();
-
-        ArrayList<AuthorModel> cData = new ArrayList<>();
-        cData.addAll(realm.copyFromRealm(results));
-
-        for (AuthorModel c : cData) {
-            Log.i("AUTHORS..", "/" + c.getName() + "/");
-        }
-    }
-
-    private void loadMyAccount(){
-        if(hasUserAuthor()){
-            //saveAccountAuthor();
-            Log.i("AUTHHH", "cuenta contable");
-        }
-        Log.i("AUTHHH", "no hay cuenta activa");
-        fetchAuthor();
-    }
-
-    private boolean hasUserAuthor() {
-        SharedPreferences sharedPreferences = getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE);
-        authorId = sharedPreferences.getInt(AUTHOR_ID, -1);
-        if(authorId > 0)
-            return true;
-
-        return false;
-    }
-
-    private void fetchAuthor(){
-        Call<AuthorModel> call = Rest.instance().getAuthor(1);
-        call.enqueue(new Callback<AuthorModel>() {
-            @Override
-            public void onResponse(Call<AuthorModel> call, Response<AuthorModel> response) {
-                saveAccountAuthor(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<AuthorModel> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void saveAccountAuthor(AuthorModel authorModel) {
-        Log.i("AUTHOR-ID", String.valueOf(authorId));
-        Log.i("AUTHOR", authorModel.getName());
-        Log.i("AUTHOR", authorModel.getLastname());
-        Log.i("AUTHOR", String.valueOf(authorModel.getCellphone()));
-        Log.i("AUTHOR", authorModel.getEmail());
-    }
-
 
 }

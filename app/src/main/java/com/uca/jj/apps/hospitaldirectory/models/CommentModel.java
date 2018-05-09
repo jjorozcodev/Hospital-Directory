@@ -9,7 +9,7 @@ import io.realm.RealmObject;
 public class CommentModel extends RealmObject {
 
     private String message;
-    @SerializedName("created_id")
+    @SerializedName("created_dt")
     private String createdDt;
     @SerializedName("author_id")
     private int authorId;
