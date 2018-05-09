@@ -4,22 +4,25 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class CommentModel {
-    private String text;
+import io.realm.RealmObject;
+
+public class CommentModel extends RealmObject {
+
+    private String message;
     @SerializedName("created_id")
     private String createdDt;
-    @SerializedName("user_id")
-    private int userId;
+    @SerializedName("author_id")
+    private int authorId;
     @SerializedName("hospital_id")
     private int hospitalId;
     private int id;
 
-    public String getText() {
-        return text;
+    public String getMessage() {
+        return message;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getCreatedDt() {
@@ -30,12 +33,12 @@ public class CommentModel {
         this.createdDt = createdDt;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 
     public int getHospitalId() {

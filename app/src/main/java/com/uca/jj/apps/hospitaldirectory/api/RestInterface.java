@@ -17,6 +17,12 @@ public interface RestInterface {
     @GET("hospitals")
     Call<ArrayList<HospitalModel>> allHospitals();
 
+    @GET("comments")
+    Call<ArrayList<CommentModel>> allComments();
+
+    @GET("authors")
+    Call<ArrayList<AuthorModel>> allAuthors();
+
     @GET("hospitals/{id}/comments")
     Call<ArrayList<CommentModel>> commentsHospital(@Path("id") int id);
 

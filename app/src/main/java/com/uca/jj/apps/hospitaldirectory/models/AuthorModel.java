@@ -1,6 +1,8 @@
 package com.uca.jj.apps.hospitaldirectory.models;
 
-public class AuthorModel {
+import io.realm.RealmObject;
+
+public class AuthorModel extends RealmObject {
     private int id;
     private int cellphone;
     private String name;

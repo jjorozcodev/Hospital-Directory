@@ -13,6 +13,7 @@ import com.uca.jj.apps.hospitaldirectory.R;
 import com.uca.jj.apps.hospitaldirectory.adapters.HospitalAdapter;
 import com.uca.jj.apps.hospitaldirectory.api.Rest;
 import com.uca.jj.apps.hospitaldirectory.models.AuthorModel;
+import com.uca.jj.apps.hospitaldirectory.models.CommentModel;
 import com.uca.jj.apps.hospitaldirectory.models.HospitalModel;
 
 import java.util.ArrayList;
@@ -42,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
-        loadMyAccount();
-        fetchHospitals();
+        loadData();
     }
 
     private void initViews (){
@@ -73,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    private void loadData(){
+        fetchHospitals();
+        fetchComments();
+        fetchAuthors();
+    }
     private void fetchHospitals(){
         Call<ArrayList<HospitalModel>> call = Rest.instance().allHospitals();
         call.enqueue(new Callback<ArrayList<HospitalModel>>() {
@@ -88,7 +93,38 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<HospitalModel>> call, Throwable t) {
+                getHospitalsFromDB();
                 swipeRefresh.setRefreshing(false);
+            }
+        });
+    }
+
+    private void fetchComments(){
+        Call<ArrayList<CommentModel>> call = Rest.instance().allComments();
+        call.enqueue(new Callback<ArrayList<CommentModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<CommentModel>> call, Response<ArrayList<CommentModel>> response) {
+                syncComments(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<CommentModel>> call, Throwable t) {
+            }
+        });
+    }
+
+    private void fetchAuthors(){
+        Call<ArrayList<AuthorModel>> call = Rest.instance().allAuthors();
+        call.enqueue(new Callback<ArrayList<AuthorModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<AuthorModel>> call, Response<ArrayList<AuthorModel>> response) {
+                syncAuthors(response.body());
+                getAuthorsFromDB();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<AuthorModel>> call, Throwable t) {
+
             }
         });
     }
@@ -97,6 +133,73 @@ public class MainActivity extends AppCompatActivity {
         for (HospitalModel hospitalModel : hospitals){
             storeHospital(hospitalModel);
         }
+    }
+
+    private void syncComments(ArrayList<CommentModel> comments){
+        clearComments();
+        for (CommentModel commentModel : comments){
+            storeComment(commentModel);
+        }
+    }
+
+    private void syncAuthors(ArrayList<AuthorModel> authors){
+        clearAuthors();
+        for(AuthorModel authorModel : authors){
+            storeAuthor(authorModel);
+        }
+    }
+
+    private void clearAuthors(){
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<AuthorModel> query = realm.where(AuthorModel.class);
+
+        RealmResults<AuthorModel> results = query.findAll();
+
+        for(int i=0; i<results.size(); i++){
+            deleteAuthorFromDB(results.get(i));
+        }
+    }
+
+    private void storeAuthor(AuthorModel authorModel){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        AuthorModel a = realm.createObject(AuthorModel.class);
+
+        a.setId(authorModel.getId());
+        a.setName(authorModel.getName());
+        a.setLastname(authorModel.getLastname());
+        a.setCellphone(authorModel.getCellphone());
+        a.setEmail(authorModel.getEmail());
+
+        realm.commitTransaction();
+    }
+
+    private void deleteAuthorFromDB(AuthorModel authorModel){
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+        authorModel.deleteFromRealm();
+        realm.commitTransaction();
+    }
+
+    private void clearComments(){
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<CommentModel> query = realm.where(CommentModel.class);
+
+        RealmResults<CommentModel> results = query.findAll();
+
+        for(int i=0; i<results.size(); i++){
+            deleteCommentFromDB(results.get(i));
+        }
+    }
+
+    private void deleteCommentFromDB(CommentModel commentModel){
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+        commentModel.deleteFromRealm();
+        realm.commitTransaction();
     }
 
     private void storeHospital(HospitalModel hModel) {
@@ -120,6 +223,20 @@ public class MainActivity extends AppCompatActivity {
         realm.commitTransaction();
     }
 
+    private void storeComment(CommentModel commentModel){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        CommentModel c = realm.createObject(CommentModel.class);
+
+        c.setId(commentModel.getId());
+        c.setAuthorId(commentModel.getAuthorId());
+        c.setHospitalId(commentModel.getHospitalId());
+        c.setCreatedDt(commentModel.getCreatedDt());
+        c.setMessage(commentModel.getMessage());
+        realm.commitTransaction();
+    }
+
     private void getHospitalsFromDB() {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<HospitalModel> query = realm.where(HospitalModel.class);
@@ -130,6 +247,35 @@ public class MainActivity extends AppCompatActivity {
         hData.addAll(realm.copyToRealm(results));
         HospitalAdapter hospitalAdapter = new HospitalAdapter(hData);
         rvHospitals.setAdapter(hospitalAdapter);
+    }
+
+    private void getCommentsFromDB() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<CommentModel> query = realm.where(CommentModel.class);
+
+        RealmResults<CommentModel> results = query.findAll();
+
+        ArrayList<CommentModel> cData = new ArrayList<>();
+        cData.addAll(realm.copyFromRealm(results));
+
+        for (CommentModel c : cData) {
+            Log.i("COMMENTS..", "/" + c.getMessage() + "/");
+        }
+    }
+
+
+    private void getAuthorsFromDB() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<AuthorModel> query = realm.where(AuthorModel.class);
+
+        RealmResults<AuthorModel> results = query.findAll();
+
+        ArrayList<AuthorModel> cData = new ArrayList<>();
+        cData.addAll(realm.copyFromRealm(results));
+
+        for (AuthorModel c : cData) {
+            Log.i("AUTHORS..", "/" + c.getName() + "/");
+        }
     }
 
     private void loadMyAccount(){
