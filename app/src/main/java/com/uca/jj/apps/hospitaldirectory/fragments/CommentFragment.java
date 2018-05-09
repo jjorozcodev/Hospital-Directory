@@ -33,12 +33,8 @@ public class CommentFragment extends Fragment {
     private Button btnComment;
     private int idHospital;
     private RecyclerView rvComments;
-    private final String MY_ACCOUNT = "my_account_author";
-    private final String AUTHOR_ID = "author_id";
 
     private TextView tvAviso;
-
-    private int authorId;
 
     public CommentFragment() {
         // Required empty public constructor
@@ -92,7 +88,7 @@ public class CommentFragment extends Fragment {
 
         ArrayList<CommentModel> commentsHospital = new ArrayList<>();
         for (CommentModel commentModel : cData){
-            if(commentModel.getId()==idHospital){
+            if(commentModel.getHospitalId()==idHospital){
                 commentsHospital.add(commentModel);
             }
         }
@@ -105,29 +101,6 @@ public class CommentFragment extends Fragment {
         }
         else
             tvAviso.setVisibility(View.VISIBLE);
-
-    }
-
-    private boolean hasUserAuthor() {
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE);
-        authorId = sharedPreferences.getInt(AUTHOR_ID, -1);
-        if(authorId > 0)
-            return true;
-
-        return false;
-    }
-
-    private void storeAccountAuthor() {
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(AUTHOR_ID, 7);
-        editor.commit();
-    }
-
-
-    private void createAuthor(){
-        Toast.makeText(getContext(), "Solicitar datos del author", Toast.LENGTH_LONG).show();
-        Toast.makeText(getContext(), "Registrarlo", Toast.LENGTH_LONG).show();
     }
 
 }

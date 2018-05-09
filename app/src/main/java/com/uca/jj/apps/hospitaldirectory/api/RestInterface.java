@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 
@@ -26,8 +28,10 @@ public interface RestInterface {
     @GET("hospitals/{id}/comments")
     Call<ArrayList<CommentModel>> commentsHospital(@Path("id") int id);
 
-    @GET("authors/{id}")
-    Call<AuthorModel> getAuthor(@Path("id") int id);
+    @DELETE("comments/{id}")
+    Call<CommentModel> deleteComment(@Path("id") int id);
 
+    @PUT("comments/{id}")
+    Call<CommentModel> updateComment(@Path("id") int id, CommentModel commentModel);
 
 }

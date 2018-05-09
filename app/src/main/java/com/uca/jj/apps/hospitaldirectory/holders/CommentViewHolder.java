@@ -1,11 +1,14 @@
 package com.uca.jj.apps.hospitaldirectory.holders;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.uca.jj.apps.hospitaldirectory.R;
 
 public class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -54,12 +57,7 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         email = (TextView) itemView.findViewById(R.id.emailComment);
 
         imgEdit = (ImageView) itemView.findViewById(R.id.imgEdit);
-        imgEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "EDITAR ESTE COMENTARIO", Toast.LENGTH_LONG).show();
-            }
-        });
+
     }
 
 
