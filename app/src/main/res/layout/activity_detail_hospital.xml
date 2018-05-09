@@ -13,8 +13,8 @@
         >
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/logoHospital"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_weight="0"
             android:padding="8dp"

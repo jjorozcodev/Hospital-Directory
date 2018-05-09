@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,26 +40,18 @@ public class DetailHospital extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_hospital);
 
-        final Bundle bundle = getIntent().getExtras();
+        loadDetail();
+        initViewsFragment();
+        //default> show info
+        showInfo();
+    }
 
-        if(bundle.getString("name") != null)
-        {
-
-            hModel.setId(bundle.getInt("id"));
-            hModel.setName(bundle.getString("name"));
-            hModel.setSlogan(bundle.getString("slogan"));
-            hModel.setTelephone(bundle.getInt("telephone"));
-            hModel.setDescription(bundle.getString("description"));
-            hModel.setAddress(bundle.getString("address"));
-            hModel.setWebsite(bundle.getString("website"));
-            hModel.setUrlImg(bundle.getString("urlImg"));
-
-        }
+    private void initViewsFragment(){
 
         logoHospital = (SimpleDraweeView) findViewById(R.id.logoHospital);
         txtNameHospital = (TextView) findViewById(R.id.txtNameHospital);
 
-        logoHospital.setImageURI(Uri.parse(hModel.getUrlImg()));
+        logoHospital.setImageURI(Uri.parse(hModel.getUrlImgSmall()));
         txtNameHospital.setText(hModel.getName());
 
         btnNavView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -70,39 +63,69 @@ public class DetailHospital extends AppCompatActivity {
 
                 switch (menuItem.getItemId()){
                     case R.id.action_info:
-                        bundleArgs = new Bundle();
-                        bundleArgs.putString("address", hModel.getAddress());
-                        bundleArgs.putString("telephone", String.valueOf(hModel.getTelephone()));
-                        bundleArgs.putString("website", hModel.getWebsite());
-                        infoHospitalFragment.setArguments(bundleArgs);
-                        setFragment(infoHospitalFragment);
+                        showInfo();
                         break;
 
                     case R.id.action_about:
-                        bundleArgs = new Bundle();
-                        bundleArgs.putString("description", hModel.getDescription());
-                        aboutHospitalFragment.setArguments(bundleArgs);
-                        setFragment(aboutHospitalFragment);
+                        showAbout();
                         break;
 
                     case R.id.action_comment:
-                        bundleArgs = new Bundle();
-                        bundleArgs.putString("id", String.valueOf(hModel.getId()));
-                        commentFragment.setArguments(bundleArgs);
-                        setFragment(commentFragment);
+                        showComments();
                         break;
                 }
+
                 return false;
             }
         });
+    }
 
-        //Por defecto muestra el fragment de info
+    private void loadDetail(){
+
+        final Bundle bundle = getIntent().getExtras();
+
+        if(bundle.getString("name") != null)
+        {
+            hModel.setId(bundle.getInt("id"));
+            hModel.setName(bundle.getString("name"));
+            hModel.setSlogan(bundle.getString("slogan"));
+            hModel.setTelephone(bundle.getInt("telephone"));
+            hModel.setDescription(bundle.getString("description"));
+            hModel.setAddress(bundle.getString("address"));
+            hModel.setWebsite(bundle.getString("website"));
+            hModel.setUrlImgSmall(bundle.getString("urlImgSmall"));
+            hModel.setUrlImgLarge(bundle.getString("urlImgLarge"));
+            hModel.setLatitude(bundle.getFloat("latitude"));
+            hModel.setLength(bundle.getFloat("length"));
+
+        }
+    }
+
+    private void showInfo(){
         bundleArgs = new Bundle();
+        bundleArgs.putString("name", hModel.getName());
         bundleArgs.putString("address", hModel.getAddress());
         bundleArgs.putString("telephone", String.valueOf(hModel.getTelephone()));
         bundleArgs.putString("website", hModel.getWebsite());
+        bundleArgs.putString("latitude", String.valueOf(hModel.getLatitude()));
+        bundleArgs.putString("length", String.valueOf(hModel.getLength()));
         infoHospitalFragment.setArguments(bundleArgs);
         setFragment(infoHospitalFragment);
+    }
+
+    private void showAbout(){
+        bundleArgs = new Bundle();
+        bundleArgs.putString("slogan", hModel.getSlogan());
+        bundleArgs.putString("description", hModel.getDescription());
+        aboutHospitalFragment.setArguments(bundleArgs);
+        setFragment(aboutHospitalFragment);
+    }
+
+    private void showComments(){
+        bundleArgs = new Bundle();
+        bundleArgs.putString("id", String.valueOf(hModel.getId()));
+        commentFragment.setArguments(bundleArgs);
+        setFragment(commentFragment);
     }
 
     private void setFragment(Fragment fragment){

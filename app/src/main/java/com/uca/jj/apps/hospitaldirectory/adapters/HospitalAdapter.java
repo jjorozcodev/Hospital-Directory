@@ -31,7 +31,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalViewHolder> {
 
     @Override
     public void onBindViewHolder(HospitalViewHolder holder, int position) {
-        String url = hospitals.get(position).getUrlImg();
+        String url = hospitals.get(position).getUrlImgLarge();
         Uri uri = Uri.parse(url);
 
         holder.getImgHospital().setImageURI(uri);

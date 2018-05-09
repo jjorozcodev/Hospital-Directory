@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.InfoHospitalFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +27,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="88888888"
-                android:textColor="@color/primary_text"
+                android:textColor="@color/secondary_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 />
 
@@ -56,7 +55,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="www.hospital,com"
-                android:textColor="@color/primary_text"
+                android:textColor="@color/secondary_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 />
 
@@ -84,7 +83,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="contiguo..."
-                android:textColor="@color/primary_text"
+                android:textColor="@color/secondary_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 />
 

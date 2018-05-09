@@ -13,7 +13,7 @@ import com.uca.jj.apps.hospitaldirectory.R;
 
 public class AboutHospitalFragment extends Fragment {
 
-    private TextView txtDesc;
+    private TextView txtDesc, txtSlogan;
 
     public AboutHospitalFragment() {
         // Required empty public constructor
@@ -32,8 +32,10 @@ public class AboutHospitalFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_about_hospital, container, false);
         txtDesc = (TextView) v.findViewById(R.id.txtDescription);
+        txtSlogan = (TextView) v.findViewById(R.id.txtSlogan);
 
         txtDesc.setText(this.getArguments().getString("description"));
+        txtSlogan.setText(this.getArguments().getString("slogan"));
 
         return v;
     }

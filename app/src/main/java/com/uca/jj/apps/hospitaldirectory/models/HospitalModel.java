@@ -1,6 +1,8 @@
 package com.uca.jj.apps.hospitaldirectory.models;
 
-public class HospitalModel {
+import io.realm.RealmObject;
+
+public class HospitalModel extends RealmObject {
     private int id;
     private String name;
     private String slogan;
@@ -8,7 +10,10 @@ public class HospitalModel {
     private int telephone;
     private String address;
     private String website;
-    private String urlImg;
+    private float latitude;
+    private float length;
+    private String urlImgLarge;
+    private String urlImgSmall;
 
     public int getId() {
         return id;
@@ -66,11 +71,35 @@ public class HospitalModel {
         this.website = website;
     }
 
-    public String getUrlImg() {
-        return urlImg;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public void setUrlImg(String urlImg) {
-        this.urlImg = urlImg;
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLength() {
+        return length;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
+    }
+
+    public String getUrlImgLarge() {
+        return urlImgLarge;
+    }
+
+    public void setUrlImgLarge(String urlImgLarge) {
+        this.urlImgLarge = urlImgLarge;
+    }
+
+    public String getUrlImgSmall() {
+        return urlImgSmall;
+    }
+
+    public void setUrlImgSmall(String urlImgSmall) {
+        this.urlImgSmall = urlImgSmall;
     }
 }

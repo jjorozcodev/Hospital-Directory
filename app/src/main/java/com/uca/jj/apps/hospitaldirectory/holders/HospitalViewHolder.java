@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,10 +32,11 @@ public class HospitalViewHolder extends RecyclerView.ViewHolder {
         nameHospital = (TextView) itemView.findViewById(R.id.nameHospital);
         btnCall = (Button) itemView.findViewById(R.id.btnCall);
 
-        nameHospital.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent i = new Intent(itemView.getContext(), DetailHospital.class);
+
                 i.putExtra("id", hospitalModel.getId());
                 i.putExtra("name", hospitalModel.getName());
                 i.putExtra("slogan", hospitalModel.getSlogan());
@@ -42,9 +44,18 @@ public class HospitalViewHolder extends RecyclerView.ViewHolder {
                 i.putExtra("telephone", hospitalModel.getTelephone());
                 i.putExtra("address", hospitalModel.getAddress());
                 i.putExtra("website", hospitalModel.getWebsite());
-                i.putExtra("urlImg", hospitalModel.getUrlImg());
+                i.putExtra("latitude", hospitalModel.getLatitude());
+                i.putExtra("length", hospitalModel.getLength());
+                i.putExtra("urlImgSmall", hospitalModel.getUrlImgSmall());
+                i.putExtra("urlImgLarge", hospitalModel.getUrlImgLarge());
 
                 itemView.getContext().startActivity(i);
+            }
+        });
+        nameHospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
