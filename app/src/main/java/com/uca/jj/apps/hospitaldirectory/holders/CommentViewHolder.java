@@ -1,8 +1,12 @@
 package com.uca.jj.apps.hospitaldirectory.holders;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +62,12 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         imgEdit = (ImageView) itemView.findViewById(R.id.imgEdit);
 
+        imgEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
 

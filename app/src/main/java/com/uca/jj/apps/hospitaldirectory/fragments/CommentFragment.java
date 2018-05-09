@@ -1,9 +1,11 @@
 package com.uca.jj.apps.hospitaldirectory.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +21,13 @@ import com.uca.jj.apps.hospitaldirectory.R;
 import com.uca.jj.apps.hospitaldirectory.adapters.CommentAdapter;
 import com.uca.jj.apps.hospitaldirectory.api.Rest;
 import com.uca.jj.apps.hospitaldirectory.models.CommentModel;
+import com.uca.jj.apps.hospitaldirectory.models.CommentRequest;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -74,6 +82,77 @@ public class CommentFragment extends Fragment {
     }
 
     private void createComment(){
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this.getContext());
+        View mView = layoutInflaterAndroid.inflate(R.layout.dialog_edit_comment, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this.getContext());
+        alertDialogBuilderUserInput.setView(mView);
+
+        final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Comentar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        createCommentObject(userInputDialogEditText.getText().toString());
+                    }
+                })
+
+                .setNegativeButton("Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
+
+    private void createCommentObject(String coment){
+        CommentRequest c = new CommentRequest();
+
+        c.setAuthorId(1);
+        c.setHospitalId(idHospital);
+        c.setMessage(coment);
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date today = Calendar.getInstance().getTime();
+        String dateComment = df.format(today);
+
+        c.setCreatedDt(dateComment);
+
+        requestComment(c);
+    }
+
+    private void requestComment(CommentRequest c){
+        Call<CommentModel> call = Rest.instance().postComment(c);
+        call.enqueue(new Callback<CommentModel>() {
+            @Override
+            public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
+                saveCommentResponse(response.body());
+                getCommentsFromDB();
+            }
+
+            @Override
+            public void onFailure(Call<CommentModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void saveCommentResponse(CommentModel commentModel){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        CommentModel c = realm.createObject(CommentModel.class);
+
+        c.setId(commentModel.getId());
+        c.setAuthorId(commentModel.getAuthorId());
+        c.setHospitalId(commentModel.getHospitalId());
+        c.setCreatedDt(commentModel.getCreatedDt());
+        c.setMessage(commentModel.getMessage());
+        realm.commitTransaction();
+
 
     }
 

@@ -115,6 +115,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         comment.deleteFromRealm();
         realm.commitTransaction();
     }
+
     private AuthorModel getAuthor(int id){
         AuthorModel a = new AuthorModel();
         for (AuthorModel authorModel : getAuthorsFromDB()){

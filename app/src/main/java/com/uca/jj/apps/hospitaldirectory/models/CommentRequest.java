@@ -5,37 +5,36 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 public class CommentRequest {
-    private String text;
-    @SerializedName("created_id")
-    private Date createdDt;
-    @SerializedName("user_id")
-    private int userId;
+    private String message;
+    @SerializedName("created_dt")
+    private String createdDt;
+    @SerializedName("author_id")
+    private int authorId;
     @SerializedName("hospital_id")
     private int hospitalId;
-    private int id;
 
-    public String getText() {
-        return text;
+    public String getMessage() {
+        return message;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public Date getCreatedDt() {
+    public String getCreatedDt() {
         return createdDt;
     }
 
-    public void setCreatedDt(Date createdDt) {
+    public void setCreatedDt(String createdDt) {
         this.createdDt = createdDt;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 
     public int getHospitalId() {
@@ -44,13 +43,5 @@ public class CommentRequest {
 
     public void setHospitalId(int hospitalId) {
         this.hospitalId = hospitalId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }
