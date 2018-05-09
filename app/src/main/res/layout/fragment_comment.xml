@@ -5,16 +5,38 @@
     android:layout_height="match_parent"
     tools:context=".fragments.CommentFragment">
 
+    <TextView
+        android:id="@+id/txtNoComments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:text="No hay comentarios."/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvComments"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="250dp"
+            android:layout_weight="3"/>
+
+        <Button
+            android:id="@+id/btnComment"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/burder_button"
+            android:layout_margin="8dp"
+            android:text="COMENTAR"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            android:textColor="@color/icons"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </FrameLayout>

@@ -1,5 +1,6 @@
 package com.uca.jj.apps.hospitaldirectory.activities;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.util.Log;
 import com.uca.jj.apps.hospitaldirectory.R;
 import com.uca.jj.apps.hospitaldirectory.adapters.HospitalAdapter;
 import com.uca.jj.apps.hospitaldirectory.api.Rest;
+import com.uca.jj.apps.hospitaldirectory.models.AuthorModel;
 import com.uca.jj.apps.hospitaldirectory.models.HospitalModel;
 
 import java.util.ArrayList;
@@ -27,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvHospitals;
     private static final String APP_NAME = "Hospital_Directory";
     private static final String IS_FIRST_TIME = "is_first_time";
+    private int authorId;
+
+    private final String MY_ACCOUNT = "my_account_author";
+    private final String AUTHOR_ID = "author_id";
+
     private SwipeRefreshLayout swipeRefresh;
 
     @Override
@@ -35,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initViews();
-
+        loadMyAccount();
         fetchHospitals();
     }
 
@@ -124,4 +131,47 @@ public class MainActivity extends AppCompatActivity {
         HospitalAdapter hospitalAdapter = new HospitalAdapter(hData);
         rvHospitals.setAdapter(hospitalAdapter);
     }
+
+    private void loadMyAccount(){
+        if(hasUserAuthor()){
+            //saveAccountAuthor();
+            Log.i("AUTHHH", "cuenta contable");
+        }
+        Log.i("AUTHHH", "no hay cuenta activa");
+        fetchAuthor();
+    }
+
+    private boolean hasUserAuthor() {
+        SharedPreferences sharedPreferences = getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE);
+        authorId = sharedPreferences.getInt(AUTHOR_ID, -1);
+        if(authorId > 0)
+            return true;
+
+        return false;
+    }
+
+    private void fetchAuthor(){
+        Call<AuthorModel> call = Rest.instance().getAuthor(1);
+        call.enqueue(new Callback<AuthorModel>() {
+            @Override
+            public void onResponse(Call<AuthorModel> call, Response<AuthorModel> response) {
+                saveAccountAuthor(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<AuthorModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void saveAccountAuthor(AuthorModel authorModel) {
+        Log.i("AUTHOR-ID", String.valueOf(authorId));
+        Log.i("AUTHOR", authorModel.getName());
+        Log.i("AUTHOR", authorModel.getLastname());
+        Log.i("AUTHOR", String.valueOf(authorModel.getCellphone()));
+        Log.i("AUTHOR", authorModel.getEmail());
+    }
+
+
 }

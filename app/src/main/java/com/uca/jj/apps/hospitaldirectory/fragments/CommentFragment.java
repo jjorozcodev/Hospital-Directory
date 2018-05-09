@@ -1,8 +1,7 @@
 package com.uca.jj.apps.hospitaldirectory.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,10 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.uca.jj.apps.hospitaldirectory.R;
-import com.uca.jj.apps.hospitaldirectory.activities.CommentActivity;
-import com.uca.jj.apps.hospitaldirectory.activities.DetailHospital;
 import com.uca.jj.apps.hospitaldirectory.adapters.CommentAdapter;
-import com.uca.jj.apps.hospitaldirectory.adapters.HospitalAdapter;
 import com.uca.jj.apps.hospitaldirectory.api.Rest;
 import com.uca.jj.apps.hospitaldirectory.models.CommentModel;
 
@@ -33,6 +29,8 @@ public class CommentFragment extends Fragment {
     private Button btnComment;
     private String idHospital;
     private RecyclerView rvComments;
+    private final String MY_ACCOUNT = "my_account_author";
+    private final String AUTHOR_ID = "author_id";
 
 
     public CommentFragment() {
@@ -43,11 +41,13 @@ public class CommentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_comment, container, false);
 
@@ -55,20 +55,45 @@ public class CommentFragment extends Fragment {
 
         rvComments = v.findViewById(R.id.rvComments);
         rvComments.setLayoutManager(new LinearLayoutManager(v.getContext()));
-        //btnComment = v.findViewById(R.id.btn_comment);
+        btnComment = v.findViewById(R.id.btnComment);
 
-/*
+
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(view.getContext(), "Comentar para hospital con ID: " + idHospital, Toast.LENGTH_LONG).show();
+                if(hasUserAuthor())
+                    Toast.makeText(view.getContext(), "Comentar para hospital con ID: " + idHospital, Toast.LENGTH_LONG).show();
+                else
+                    createAuthor();
             }
         });
-*/
+
         fetchComments();
 
         return v;
+    }
+
+
+    private boolean hasUserAuthor() {
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE);
+        if(sharedPreferences.getInt(AUTHOR_ID, -1) > 0)
+            return true;
+
+        return false;
+    }
+
+    private void storeAccountAuthor() {
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(AUTHOR_ID, 7);
+        editor.commit();
+    }
+
+
+    private void createAuthor(){
+        Toast.makeText(getContext(), "Solicitar datos del author", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Registrarlo", Toast.LENGTH_LONG).show();
     }
 
     private void fetchComments(){
