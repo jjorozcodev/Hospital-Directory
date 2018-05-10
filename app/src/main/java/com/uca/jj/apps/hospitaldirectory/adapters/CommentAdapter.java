@@ -1,10 +1,13 @@
 package com.uca.jj.apps.hospitaldirectory.adapters;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -16,7 +19,13 @@ import com.uca.jj.apps.hospitaldirectory.holders.CommentViewHolder;
 import com.uca.jj.apps.hospitaldirectory.models.AuthorModel;
 import com.uca.jj.apps.hospitaldirectory.models.CommentModel;
 
+import org.w3c.dom.Comment;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -68,6 +77,56 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
                 return true;
             }
         });
+
+        holder.getImgEdit().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(view.getContext());
+                View mView = layoutInflaterAndroid.inflate(R.layout.dialog_edit_comment, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(view.getContext());
+                alertDialogBuilderUserInput.setView(mView);
+
+                final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
+                userInputDialogEditText.setText(comments.get(position).getMessage().toString());
+
+                alertDialogBuilderUserInput
+                        .setCancelable(false)
+                        .setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                CommentModel upComment = comments.get(position);
+                                upComment.setMessage(userInputDialogEditText.getText().toString());
+
+                                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+                                Date today = Calendar.getInstance().getTime();
+                                String dateComment = df.format(today);
+
+                                upComment.setCreatedDt(dateComment);
+
+                                updateComment(upComment);
+                            }
+                        })
+
+                        .setNegativeButton("Cancelar",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogBox, int id) {
+                                        dialogBox.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+                alertDialogAndroid.show();
+            }
+        });
+
+    }
+
+    private void updateComment(CommentModel commentModel){
+        updateCommentFromAPI(commentModel);
+        updateCommentFromDB(commentModel);
+        updateArraylist(commentModel);
+        notifyDataSetChanged();
     }
 
     private void removeComment(CommentModel commentModel){
@@ -75,6 +134,30 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         deleteCommentFromDB(commentModel);
         comments.remove(commentModel);
         notifyDataSetChanged();
+    }
+
+    private void updateArraylist(CommentModel c){
+        for(CommentModel coment : comments){
+            if(coment.getId()==c.getId()){
+                coment.setMessage(c.getMessage());
+                coment.setCreatedDt(c.getCreatedDt());
+            }
+        }
+    }
+
+    private void updateCommentFromAPI(CommentModel c){
+        Call<CommentModel> call = Rest.instance().updateComment(c.getId(), c);
+        call.enqueue(new Callback<CommentModel>() {
+            @Override
+            public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<CommentModel> call, Throwable t) {
+
+            }
+        });
     }
 
     private void deleteCommentFromAPI(final int id){
@@ -92,6 +175,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         });
     }
 
+    private void updateCommentFromDB(CommentModel c){
+        deleteCommentFromDB(c);
+        storeComment(c);
+    }
+
     private void deleteCommentFromDB(CommentModel commentModel){
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<CommentModel> query = realm.where(CommentModel.class);
@@ -105,6 +193,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
         }
 
+    }
+
+    private void storeComment(CommentModel commentModel){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        CommentModel c = realm.createObject(CommentModel.class);
+
+        c.setId(commentModel.getId());
+        c.setAuthorId(commentModel.getAuthorId());
+        c.setHospitalId(commentModel.getHospitalId());
+        c.setCreatedDt(commentModel.getCreatedDt());
+        c.setMessage(commentModel.getMessage());
+        realm.commitTransaction();
     }
 
     private void removeCommentFromDB(CommentModel comment){

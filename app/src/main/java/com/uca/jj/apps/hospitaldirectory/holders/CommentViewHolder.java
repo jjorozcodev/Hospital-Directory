@@ -20,6 +20,14 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imgEdit;
 
+    public ImageView getImgEdit() {
+        return imgEdit;
+    }
+
+    public void setImgEdit(ImageView imgEdit) {
+        this.imgEdit = imgEdit;
+    }
+
     public TextView getName() {
         return name;
     }
@@ -62,12 +70,6 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         imgEdit = (ImageView) itemView.findViewById(R.id.imgEdit);
 
-        imgEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 
 

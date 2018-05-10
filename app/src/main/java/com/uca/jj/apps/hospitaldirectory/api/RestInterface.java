@@ -28,14 +28,11 @@ public interface RestInterface {
     @GET("authors")
     Call<ArrayList<AuthorModel>> allAuthors();
 
-    @GET("hospitals/{id}/comments")
-    Call<ArrayList<CommentModel>> commentsHospital(@Path("id") int id);
-
     @DELETE("comments/{id}")
     Call<CommentModel> deleteComment(@Path("id") int id);
 
     @PUT("comments/{id}")
-    Call<CommentModel> updateComment(@Path("id") int id, CommentModel commentModel);
+    Call<CommentModel> updateComment(@Path("id") int id, @Body CommentModel commentModel);
 
     @POST("comments")
     Call<CommentModel> postComment(@Body CommentRequest commentRequest);
